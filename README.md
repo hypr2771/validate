@@ -2,7 +2,7 @@
 
 ## Why
 
-I was boring doing much validation before entering a method and I wanted
+I was bored doing much validation before entering a method and I wanted
 a simple way to validate ***any*** object before treating it.
 
 ## How
