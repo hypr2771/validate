@@ -1,8 +1,8 @@
 package net.vince.validated;
 
 @FunctionalInterface
-public interface Error {
+public interface Error<T> {
 
-  String message();
+  T message();
 
 }

@@ -1,7 +1,9 @@
 package net.vince.validated;
 
-import io.vavr.collection.List;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Rules are a set of rule used to validate a component. They will combine before returning the
@@ -55,7 +57,7 @@ import java.util.function.Predicate;
  */
 public abstract class Rules<T> {
 
-  private List<Rule<T>> ruleList = List.empty();
+  private List<Rule<T>> ruleList = new ArrayList<>();
 
   /**
    * Computes all rules in order and returns <em>all</em> failed ones.
@@ -65,7 +67,8 @@ public abstract class Rules<T> {
    * List} of failed {@link Error} on right
    */
   public Validated<T> validate(T candidate) {
-    var errors = ruleList.filter(rule -> !rule.apply(candidate)).map(rule -> rule.error).toList();
+    var errors = ruleList.stream().filter(rule -> !rule.apply(candidate)).map(rule -> rule.error).collect(
+        Collectors.toList());
 
     return errors.isEmpty() ? Validated.valid(candidate) : Validated.error(errors);
   }
@@ -78,17 +81,17 @@ public abstract class Rules<T> {
    * @param validator the predicate used to test the <code>T</code> against
    * @return the new set of rules
    */
-  protected Rules<T> append(Error error, Predicate<T> validator) {
-    ruleList = ruleList.append(new Rule<>(error, validator));
+  protected Rules<T> append(Error<T> error, Predicate<T> validator) {
+    ruleList.add(new Rule<>(error, validator));
     return this;
   }
 
   private class Rule<U> {
 
-    private final Error        error;
+    private final Error<U>     error;
     private final Predicate<U> validator;
 
-    Rule(final Error error, final Predicate<U> validator) {
+    Rule(final Error<U> error, final Predicate<U> validator) {
       this.error     = error;
       this.validator = validator;
     }

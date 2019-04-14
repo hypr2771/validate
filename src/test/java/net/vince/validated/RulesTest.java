@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
-class RulesTest {
+public class RulesTest {
 
   private class TestRules extends Rules<String> {
 
@@ -22,7 +22,7 @@ class RulesTest {
   }
 
   @Test
-  void validate() {
+  public void validate() {
 
     var cut = new TestRules();
 
@@ -34,12 +34,18 @@ class RulesTest {
     assertFalse(shouldHaveTwoErrors.isValid());
     assertNotNull(shouldHaveTwoErrors.errors());
     assertEquals(2, shouldHaveTwoErrors.errors().size());
+    assertNotNull(shouldHaveTwoErrors.errors().get(0));
+    assertEquals("Object is null", shouldHaveTwoErrors.errors().get(0).message());
+    assertNotNull(shouldHaveTwoErrors.errors().get(1));
+    assertEquals("Object is too short", shouldHaveTwoErrors.errors().get(1).message());
     assertThrows(NullPointerException.class, shouldHaveTwoErrors::get);
 
     assertTrue(shouldHaveOneError.isError());
     assertFalse(shouldHaveOneError.isValid());
     assertNotNull(shouldHaveOneError.errors());
     assertEquals(1, shouldHaveOneError.errors().size());
+    assertNotNull(shouldHaveOneError.errors().get(0));
+    assertEquals("Object is too short", shouldHaveOneError.errors().get(0).message());
     assertThrows(NullPointerException.class, shouldHaveOneError::get);
 
     assertFalse(shouldBeOk.isError());
