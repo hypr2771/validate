@@ -9,7 +9,7 @@ a simple way to validate ***any*** object before treating it.
 
 You can use it doing :
 
-### 1. Create your validator from `net.vince.validated.Rules`
+### 1. Create your validator from `Rules`
 
 ```java
   private class TestRules extends Rules<String> {

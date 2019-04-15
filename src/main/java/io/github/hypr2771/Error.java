@@ -1,4 +1,4 @@
-package net.vince.validated;
+package io.github.hypr2771;
 
 @FunctionalInterface
 public interface Error<T> {

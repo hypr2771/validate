@@ -1,4 +1,4 @@
-package net.vince.validated;
+package io.github.hypr2771;
 
 import java.util.List;
 import java.util.Optional;

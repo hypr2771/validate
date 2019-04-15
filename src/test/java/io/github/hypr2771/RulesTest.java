@@ -1,4 +1,4 @@
-package net.vince.validated;
+package io.github.hypr2771;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
