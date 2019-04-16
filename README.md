@@ -7,9 +7,23 @@ a simple way to validate ***any*** object before treating it.
 
 ## How
 
-You can use it doing :
+### 1. Dependency
 
-### 1. Create your validator from `Rules`
+#### Maven
+```
+<dependency>
+  <groupId>io.github.hypr2771</groupId>
+  <artifactId>validated</artifactId>
+  <version>1.0</version>
+</dependency>
+```
+
+#### Gradle
+```
+compile "io.github.hypr2771:validated:1.0"
+```
+
+### 2. Create your own set of `Rules`
 
 ```java
   private class TestRules extends Rules<String> {
@@ -21,7 +35,7 @@ You can use it doing :
   }
 ```
 
-### 2. Instantiate it the way you want
+### 3. Instantiate it the way you want
 
 As it is simply constructed in a conventional way, you can either use your
 constructor, or autowiring, or any dark magic you wish.
@@ -30,7 +44,7 @@ constructor, or autowiring, or any dark magic you wish.
   var rules = new TestRules();
 ```
 
-### 3. Start validating your objects
+### 4. Start validating your objects
 
 ```java
     var shouldHaveTwoErrors = rules.validate(null);
