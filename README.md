@@ -14,13 +14,13 @@ a simple way to validate ***any*** object before treating it.
 <dependency>
   <groupId>io.github.hypr2771</groupId>
   <artifactId>validated</artifactId>
-  <version>1.1</version>
+  <version>1.3</version>
 </dependency>
 ```
 
 #### Gradle
 ```
-compile "io.github.hypr2771:validated:1.1"
+compile "io.github.hypr2771:validated:1.3"
 ```
 
 ### 2. Create your own set of `Rules`
