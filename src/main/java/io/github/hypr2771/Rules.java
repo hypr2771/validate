@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
  * <br>
  *
  * Even tho you can create a simple set of rules for your whole application doing
- * <code>Rules&lt;?&gt;</code>, we encourage you to create a set of rules for each items.
+ * {@link Rules}&lt;?, ?&gt;, we encourage you to create a set of rules for each items.
  * This will enhance generics behavior of your rules while still keeping the type safe nature
- * offered by <code>Rules</code>.
+ * offered by {@link Rules}.
  * <br>
  *
  * <br>
@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
  * <br>
  *
  * The only visible method present is {@link Rules#validate(Object)}, used to validate a <code>T</code>
- * type.
+ * type. In case {@link Rules#validate(Object)} fails, you will instead have a
+ * {@link List}<code>&lt;E&gt;</code>.
  * <br>
  *
  * To implement your own set of {@link Rules}, you can simply inherit {@link Rules}, then use the
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
  * <br> An example of a simple {@link Rules} implementation could be as follow :
  *
  * <pre>
- * public class AdminRules extends {@link Rules}&lt;{@link String}&gt; {
+ * public class AdminRules extends {@link Rules}&lt;{@link String}, {@link String}&gt; {
  *
  *   public AdminRules() {
  *     this.{@link #append}(() -&gt; "Please, at least try something smart...", target -&gt; null != target &amp;&amp; !target.isBlank())
@@ -49,7 +50,7 @@ import java.util.stream.Collectors;
  * public String adminPanel(String name){
  *
  *   var adminValidation = adminRules.{@link #validate}(name);
- *   if(adminValidation.isLeft()){
+ *   if(adminValidation.isValid()){
  *     return "goSu";
  *   }
  *
@@ -58,10 +59,11 @@ import java.util.stream.Collectors;
  * </pre>
  *
  * @param <T> the class to validate for the given set of rules
+ * @param <E> the type of the error
  */
-public abstract class Rules<T> {
+public abstract class Rules<T, E> {
 
-  private List<Rule<T>> ruleList = new ArrayList<>();
+  private List<Rule<T, E>> ruleList = new ArrayList<>();
 
   /**
    * Computes all rules in order and returns <em>all</em> failed ones.
@@ -70,7 +72,7 @@ public abstract class Rules<T> {
    * @return either an instance of <code>T</code> on the left if it passes all tests, or {@link
    * List} of failed {@link Error} on right
    */
-  public Validated<T> validate(T candidate) {
+  public Validated<T, E> validate(T candidate) {
     var errors = ruleList.stream().filter(rule -> !rule.apply(candidate)).map(rule -> rule.error).collect(
         Collectors.toList());
 
@@ -85,17 +87,23 @@ public abstract class Rules<T> {
    * @param validator the predicate used to test the <code>T</code> against
    * @return the new set of rules
    */
-  protected Rules<T> append(Error<T> error, Predicate<T> validator) {
+  protected Rules<T, E> append(Error<E> error, Predicate<T> validator) {
     ruleList.add(new Rule<>(error, validator));
     return this;
   }
 
-  private class Rule<U> {
+  /**
+   * Represents an unique {@link Rule} in a whole {@link Rules}.
+   *
+   * @param <U> the type of the object to validate
+   * @param <O> the type of the error if validation fails
+   */
+  private class Rule<U, O> {
 
-    private final Error<U>     error;
+    private final Error<O>     error;
     private final Predicate<U> validator;
 
-    Rule(final Error<U> error, final Predicate<U> validator) {
+    private Rule(final Error<O> error, final Predicate<U> validator) {
       this.error     = error;
       this.validator = validator;
     }
