@@ -14,19 +14,19 @@ a simple way to validate ***any*** object before treating it.
 <dependency>
   <groupId>io.github.hypr2771</groupId>
   <artifactId>validated</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
 </dependency>
 ```
 
 #### Gradle
 ```
-compile "io.github.hypr2771:validated:1.0"
+compile "io.github.hypr2771:validated:1.1"
 ```
 
 ### 2. Create your own set of `Rules`
 
 ```java
-  private class TestRules extends Rules<String> {
+  private class TestRules extends Rules<String, String> {
     public TestRules() {
       super();
       this.append(() -> "Object is null", Objects::nonNull)
@@ -56,9 +56,9 @@ constructor, or autowiring, or any dark magic you wish.
     assertNotNull(shouldHaveTwoErrors.errors());
     assertEquals(2, shouldHaveTwoErrors.errors().size());
     assertNotNull(shouldHaveTwoErrors.errors().get(0));
-    assertEquals("Object is null", shouldHaveTwoErrors.errors().get(0).message());
+    assertEquals("Object is null", shouldHaveTwoErrors.errors().get(0).get());
     assertNotNull(shouldHaveTwoErrors.errors().get(1));
-    assertEquals("Object is too short", shouldHaveTwoErrors.errors().get(1).message());
+    assertEquals("Object is too short", shouldHaveTwoErrors.errors().get(1).get());
     assertThrows(NullPointerException.class, shouldHaveTwoErrors::get);
 
     assertTrue(shouldHaveOneError.isError());
@@ -66,7 +66,7 @@ constructor, or autowiring, or any dark magic you wish.
     assertNotNull(shouldHaveOneError.errors());
     assertEquals(1, shouldHaveOneError.errors().size());
     assertNotNull(shouldHaveOneError.errors().get(0));
-    assertEquals("Object is too short", shouldHaveOneError.errors().get(0).message());
+    assertEquals("Object is too short", shouldHaveOneError.errors().get(0).get());
     assertThrows(NullPointerException.class, shouldHaveOneError::get);
 
     assertFalse(shouldBeOk.isError());
@@ -75,3 +75,9 @@ constructor, or autowiring, or any dark magic you wish.
     assertEquals("blabla", shouldBeOk.get());
     assertThrows(NullPointerException.class, shouldBeOk::errors);
 ```
+
+### 5. Go further
+
+You don't have to define the `Rules` only for `String`. `Rules` is generic for both the object to validate and the type of the error to be returned.
+
+If a behavior you expect is not available, code is really simple, so don't hesitate to contribute too.
