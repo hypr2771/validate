@@ -4,7 +4,7 @@
 
   <groupId>io.github.hypr2771</groupId>
   <artifactId>validated</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.3</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Validated allows Object validation in a fluent, simple way</description>
@@ -33,7 +33,7 @@
     <connection>scm:git:ssh://git@github.com/hypr2771/validated.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/hypr2771/validated.git</developerConnection>
     <url>https://github.com/hypr2771/validated/tree/master</url>
-    <tag>HEAD</tag>
+    <tag>validated-1.3</tag>
   </scm>
 
   <properties>
