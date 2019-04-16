@@ -4,7 +4,7 @@
 
   <groupId>io.github.hypr2771</groupId>
   <artifactId>validated</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Validated allows Object validation in a fluent, simple way</description>
